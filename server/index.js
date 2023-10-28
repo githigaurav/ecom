@@ -1,9 +1,11 @@
 require("dotenv").config()
-require("./connection/dbConnection")
-const server = require("express")()
+require("./connections/dbConnection")
+const express = require("express")
+const server= express()
 
 
-
+// setting up server
+server.use(express.json())
 
 // routes
 const {seller, admin }= require('./routes/index')
