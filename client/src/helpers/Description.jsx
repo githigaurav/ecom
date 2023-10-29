@@ -1,14 +1,17 @@
 import React from 'react'
 
 function Description({
-  text='',
+  value='',
   col='0',
   row='0',
-  label='Discription'
+  label='Discription',
+  onInputBlur,
+  onValueChange,
+  name
 }) {
   return (
     <>
-        <textarea name="description" id="description" cols={col} rows={row} placeholder={label} className='bg-blue-200 p-2'></textarea>
+        <textarea onBlur={onInputBlur} onChange={(e)=>{ onValueChange && onValueChange(e.target.value)}} name={name} id="description" cols={col} rows={row} placeholder={label} className='bg-blue-200 p-2'>{value}</textarea>
     </>
   )
 }

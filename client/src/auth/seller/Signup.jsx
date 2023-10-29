@@ -1,157 +1,110 @@
-import { useState } from 'react';
+import React from 'react'
+import { Description, Input } from '../../helpers'
+import {useFormik} from 'formik'
+import {regVal} from './../../validation/Validation'
 
-// import { Input } from '../../helpers';
 
 function Signup() {
-    const [sellerinfo, Setsellerinfo] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirm_password: "",
-        phoneNumber: "",
-        companyName: "",
-        address: "",
-        gst: ""
-    });
+    const formik = useFormik({
+        initialValues:{
+            name:'',
+            email:'',
+            password:'',
+            confirmPassword:'',
+            phoneNumber:'',
+            companyName:'',
+            address:'',
+            gstNo:''
+        },
+        validationSchema:regVal,
+        onSubmit:(values)=>{console.log(values)}
+    })
+    console.log(formik.values)
+    console.log(formik.errors)
+  return (
+ <div className='flex h-screen justify-center items-center'>
+     <div className='flex flex-col gap-3 w-full max-w-[600px]'>
+        <h3 className='text-center uppercase text-blue-600 font-bold text-4xl m-5'>Registration</h3>
+      <Input
+    type={"text"}
+    placeholder={"Name"}
+    value={formik.values.name}
+    name={"name"}
+    onInputBlur={formik.handleBlur}
+    onValueChange={(value)=>{ formik.setFieldValue("name", value.toLowerCase()) }}
+    />
+     {formik.touched.name && formik.errors.name ? <p className='text-red-600'>{formik.errors.name}</p> : null}
+      <Input
+    type={"email"}
+    placeholder={"Email"}
+    name={"email"}
+    value={formik.values.email}
+    onInputBlur={formik.handleBlur}
+    onValueChange={(value)=>{formik.setFieldValue("email", value.toLowerCase())}}
+    />
+      {formik.touched.email && formik.errors.email ? <p className='text-red-600'>{formik.errors.email}</p> : null}
+      <Input
+    type={"password"}
+    placeholder={"Password"}
+    name={"password"}
+    value={formik.values.password}
+    onInputBlur={formik.handleBlur}
+    onValueChange={(value)=>{formik.setFieldValue("password", value)}}
+    />
+    {formik.touched.password && formik.errors.password ? <p className='text-red-600'>{formik.errors.password}</p> : null}
+      <Input
+    type={"password"}
+    placeholder={"Confirm Password"}
+    name={"confirmPassword"}
+    value={formik.values.confirmPassword}
+    onInputBlur={formik.handleBlur}
+    onValueChange={(value)=>{formik.setFieldValue("confirmPassword", value)}}
+    />
+    {formik.touched.confirmPassword && formik.errors.confirmPassword ? <p className='text-red-600'>{formik.errors.confirmPassword}</p> : null}
+      <Input
+    type={"number"}
+    placeholder={"Phone Number"}
+    name={"phoneNumber"}
+    value={formik.values.phoneNumber}
+    onInputBlur={formik.handleBlur}
+    onValueChange={(value)=>{formik.setFieldValue("phoneNumber", value)}}
+    />
+    {formik.touched.phoneNumber && formik.errors.phoneNumber ? <p className='text-red-600'>{formik.errors.phoneNumber}</p> : null}
+    <Input
+     type={"text"}
+    placeholder={"Company Name"}
+    name={"companyName"}
+    value={formik.values.companyName}
+    onInputBlur={formik.handleBlur}
+    onValueChange={(value)=>{formik.setFieldValue("companyName", value.toLowerCase())}}
+    />
+        {formik.touched.companyName && formik.errors.companyName ? <p className='text-red-600'>{formik.errors.companyName}</p> : null}
 
+    <Description
+        label='address'
+        onInputBlur={formik.handleBlur}
+        value={formik.values.address}
+        name={'address'}
+        onValueChange={(value)=>{formik.setFieldValue("address", value.toLowerCase())}}
+    />
+    
+    {formik.touched.address && formik.errors.address ? <p className='text-red-600'>{formik.errors.address}</p> : null}
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        console.log(name)
-        Setsellerinfo({ ...sellerinfo, [name]: value });
-
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-
-        try {
-            //call api 
-            console.log(sellerinfo)
-        }
-        catch (error) {
-            console.log(error);
-        }
-
-    }
- 
-    return (<>
-
-        <div className='w-full h-screen flex justify-center items-center'>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-full max-w-[600px] bg-blue-300 py-10 px-10 rounded-xl '>
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_name">Seller Name</label>
-                    <input
-                        id="seller_name"
-                        placeholder='Your Name Please'
-                        name="name"
-                        value={sellerinfo.name}
-                        onChange={handleChange}
-                        className='p-2'
-                    />
-
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_email">Email ID:</label>
-                    <input id="seller_email"
-                        placeholder='Enter Email ID'
-                        type="email"
-                        name="email"
-                        value={sellerinfo.email}
-                        onChange={handleChange}
-                        className='p-2'
-                    />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_password">Password:</label>
-                    <input id="seller_password"
-                        placeholder='Enter Password'
-                        type="password"
-                        name="password"
-                        value={sellerinfo.password}
-                        onChange={handleChange}
-                        className='p-2'
-                    />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_password">Confirm_Password:</label>
-                    <input id="seller_password"
-                        placeholder='Confirm Password'
-                        type="password"
-                        name="confirm_password"
-                        value={sellerinfo.confirm_password}
-                        onChange={handleChange}
-                        className='p-2'
-                    />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_phonenumber">Phone Number:</label>
-                    <input id="seller_phonenumber"
-                        placeholder='Enter Phone Number'
-                        name="phoneNumber"
-                        value={sellerinfo.phoneNumber}
-                        onChange={handleChange}
-                        className='p-2'
-                    />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_companyname">Company Name:</label>
-                    <input id="seller_companyname"
-                        placeholder='Name of the company'
-                        name="companyName"
-                        value={sellerinfo.companyName}
-                        onChange={handleChange}
-                        className='p-2'
-                    />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_address">Address:</label>
-                   
-                <textarea
-                    id="seller_address"
-                    name="address" 
-                    placeholder='address'
-                    value={sellerinfo.address} 
-                    onChange={handleChange}              
-                    cols="30"
-                    rows="10"
-                    className='p-2'
-                ></textarea>
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                    <label htmlFor="seller_gstinfo">GST No:</label>
-                    <input id="seller_gstinfo"
-                        placeholder='GST No.'
-                        name="gst"
-                        value={sellerinfo.gst}
-                        onChange={handleChange}
-                        className='p-2'
-                    />
-                </div>
-
-                <div className=''>
-                    <button type='submit' className='bg-blue-600 p-3 text-white uppercase'>Register</button>
-                </div>
-                {/* <button type="submit" className={"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"}>
-      Save
-    </button> */}
-            </form>
-
-            {/* <Input type="String"placeholder = "SellerName"/> */}
-        </div>
-
-
-    </>
-
-    )
+     <Input
+     type={"text"}
+    placeholder={"GST Number"}
+    name={"gstNo"}
+    value={formik.values.gstNo}
+    onInputBlur={formik.handleBlur}
+    onValueChange={(value)=>{formik.setFieldValue("gstNo", value.toLowerCase())}}
+    />
+    {formik.touched.gstNo && formik.errors.gstNo ? <p className='text-red-600'>{formik.errors.gstNo}</p> : null}
+    <button className='bg-blue-600 text-white p-3 uppercase '>Register</button>
+  </div>
+ </div>
+    
+    
+  )
 }
 
 export default Signup
