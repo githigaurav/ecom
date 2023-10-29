@@ -6,10 +6,11 @@ function Input({
     value,
     name,
     onValueChange,
+    onInputBlur,
     inputStyle
 
 }) {
-    return (
+    return ( 
         <>
             <input
                 type={type}
@@ -17,6 +18,7 @@ function Input({
                 value={value}
                 name={name}
                 onChange={(e) => onValueChange && onValueChange(e.target.value)}
+                onBlur={onInputBlur}
                 className={`${inputStyle} p-3 bg-blue-200`}
             />
         </>

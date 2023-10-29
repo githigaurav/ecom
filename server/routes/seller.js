@@ -8,7 +8,6 @@ const sellerDB = require("./../schemas/seller")
 const { addData, updateData, deleteData } = require("./../controllers/globalControllers")
 
 seller.post('/register', async (req, res) => {
-
     const result = await addData(req.body, sellerDB)
     if (result) {
         res.json({ message: "Seller has been added" })
