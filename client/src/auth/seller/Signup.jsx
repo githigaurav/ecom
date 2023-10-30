@@ -2,7 +2,7 @@ import React from 'react'
 import { Description, Input } from '../../helpers'
 import {useFormik} from 'formik'
 import {regVal} from './../../validation/Validation'
-
+import { Link } from 'react-router-dom'
 
 function Signup() {
     const formik = useFormik({
@@ -100,6 +100,7 @@ function Signup() {
     />
     {formik.touched.gstNo && formik.errors.gstNo ? <p className='text-red-600'>{formik.errors.gstNo}</p> : null}
     <button className='bg-blue-600 text-white p-3 uppercase '>Register</button>
+    <p className='text-center'>Already have an account  ? <Link to="/" className='text-blue-600 font-semi-bold'>Login</Link> </p>
   </div>
  </div>
     
