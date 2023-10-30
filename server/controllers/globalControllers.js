@@ -12,7 +12,10 @@ const findData = async (id , schema)=>{
 
 const addData = async(info , schema)=>{
         try {
+            console.log("info pass: ", info.password) 
             const db = new schema(info)
+            // need to update the password with the encrypted password.
+            
             await db.save()
             return true
         } catch (err) {

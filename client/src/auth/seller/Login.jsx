@@ -79,7 +79,7 @@ function Login() {
                         onValueChange={(data) => { formik.setFieldValue("email", data.toLowerCase()) }}
                         onInputBlur={formik.handleBlur}
                     />
-                    <input type="text" onClick={formik.handleChange} />
+                    {/* <input type="text" onClick={formik.handleChange} /> */}
                     {formik.touched.email && formik.errors.email ? <p className='text-red-600'>{formik.errors.email}</p> : null}
                     <Input
                         type={"password"}
