@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Profile from './profile';
-import {Dropdown, Input , ProductsList , Tab, Upload, Description } from './../helpers'
+import {Dropdown, Input , ProductsList , Tab, Upload, Description, Loading } from './../helpers'
+import CookieParser from 'js-cookie'
+import {useNavigate} from 'react-router-dom'
+
+import { getDashboard } from '../hooks/dashboard';
 function Dashboard() {
+    const [data, error, loading, msg] = getDashboard("http://localhost:3001/seller/dashboard")
+    const navigate = useNavigate()
     const [tab, setTab] = useState("dashboard")
     const [productTab, setProductTab] = useState("add_products")
     const [addProduct, setAddProduct] = useState({
@@ -24,11 +30,26 @@ function Dashboard() {
     const handleProduct = (state) => {
         setProductTab(state)
     }
+    const handleLogout = () => {
+        CookieParser.remove("token")
+        navigate("/")
+    }
 
-    useEffect(() => {
+    if (error) {
 
-    }, [tab])
-    console.log(tab)
+        if (msg === "jwt expired" || msg === "invalid signature" || msg === "jwt must be provided") {
+            setTimeout(() => {
+                navigate("/")
+            }, 2000)
+            return <h1>Session Expired</h1>
+        }
+        return <h3>Something went wrong</h3>
+
+    }
+    if (loading) {
+        return <Loading />
+    }
+   console.log(data)
     return (
         <>
             <div className="flex gap-2 h-screen p-2">
@@ -84,7 +105,7 @@ function Dashboard() {
                             value={''}
                             inputStyle={"p-2 bg-blue-200 rounded w-full max-w-xl m-1"}
                         />
-                        <button className='text-blue-500 hover:text-blue-900 m-1'>Logout</button>
+                        <button className='text-blue-500 hover:text-blue-900 m-1' onClick={handleLogout}>Logout</button>
                     </div>
 
                     {/* if tab is selected on products then render this */}

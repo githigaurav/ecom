@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-
 const sellerSchema = new mongoose.Schema({
     name: {
       type: String,
@@ -7,8 +6,8 @@ const sellerSchema = new mongoose.Schema({
     },
     email: {
       type: String,
-      unique:[true, "Duplicate Email"],
-      required: [true, "Email is required"]
+      required: [true, "Email is required"],
+      unique:[true , "Email must be unique"]
     },
     password: {
       type: String,
@@ -16,7 +15,8 @@ const sellerSchema = new mongoose.Schema({
     },
     phoneNumber: {
       type: Number,
-      required: [true, "Phone Number is required"]
+      required: [true, "Phone Number is required"],
+      unique:[true , "Phone Number must be unique"]
     },
     companyName: {
       type: String,
@@ -28,7 +28,8 @@ const sellerSchema = new mongoose.Schema({
     },
     gstNo: {
       type: String,
-      required: [true, "GST No is required"]
+      required: [true, "GST No is required"],
+      unique:[true , "GST No must be unique"]
     },
     accountStatus: {
       type: String,
@@ -42,6 +43,9 @@ const sellerSchema = new mongoose.Schema({
   {timestamps:true},
   {collection:'seller'}
   )
+
+
+  
 
  const Seller = mongoose.model('Seller', sellerSchema)
 module.exports=Seller
