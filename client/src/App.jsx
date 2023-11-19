@@ -6,6 +6,8 @@ import {createBrowserRouter , RouterProvider , redirect, Navigate} from 'react-r
 import NotFound from "./helpers/NotFound";
 import { Loading } from "./helpers";
 import CookieParser from "js-cookie"
+import SellerRoutes from "./SellerRoutes";
+import Class from "./class/Class";
 function App() {
 
   const [cookie , setCookie]=useState(CookieParser.get("token"))
@@ -25,19 +27,27 @@ function App() {
       element:<NotFound/>
     },
     {
-      path:'/dashboard',
-      element: cookie ? <Dashboard /> : <Navigate to="/" />  
-    },
-    {
       path:'/load',
       element:<Loading/>
     },
+    {
+      path:'/dashboard',
+      element:<Dashboard/>        
+    },
+    {
+      path:'/class',
+      element:<Class/>
+    }
     
   ])
 
+  useEffect(()=>{
+
+  },[cookie])
+
   return (
     <>
-      <RouterProvider router={router}/>
+      {cookie ? <SellerRoutes/> :  <RouterProvider router={router}/>}
     </>
   );
 }

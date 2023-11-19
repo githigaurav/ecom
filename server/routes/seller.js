@@ -1,6 +1,5 @@
 const express = require("express");
 const seller = express.Router();
-
 // importing seller db file
 const sellerDB = require("./../schemas/seller");
 
@@ -17,7 +16,7 @@ const {
 } = require("./../controllers/globalControllers");
 
 // importing middleware
-const {verifyToken} = require("./../middleware/globalMiddleware")
+const {verifyToken ,handleFile} = require("./../middleware/globalMiddleware")
 seller.post("/register", async (req, res) => {
     try {
         const { password, ...data } = req.body
@@ -110,4 +109,15 @@ seller.get("/dashboard", verifyToken, async (req, res) => {
         res.status(400).json({ message: "Something went wrong" });
     }
 });
+
+
+
+
+
+seller.post("/upload", handleFile,(req, res)=>{
+    // const newData=JSON.parse(JSON.stringify(req.body))
+    // console.log(newData)
+})
+
+
 module.exports = seller;

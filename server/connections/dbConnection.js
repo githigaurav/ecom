@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { ApiError } = require("../utils/ErrorHandling")
 
 const dbURL = process.env.DBCON
 
@@ -7,8 +8,9 @@ const connectToDb = async () => {
         await mongoose.connect(dbURL,{dbName:'ecommerce'})
         console.log("db Connection established")
     } catch (error) {
-        console.log("Error while mongodb Connection ", error)
-        process.exit(1)
+        throw new ApiError(500, 'Error connecting to MongoDB', [err.message]); 
+        
     }
 }
+
 connectToDb()

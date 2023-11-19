@@ -11,7 +11,7 @@ function Description({
 }) {
   return (
     <>
-        <textarea onBlur={onInputBlur} onChange={(e)=>{ onValueChange && onValueChange(e.target.value)}} name={name} id="description" cols={col} rows={row} placeholder={label} className='bg-blue-200 p-2'>{value}</textarea>
+        <textarea onBlur={onInputBlur} onChange={(e)=>{ onValueChange && onValueChange(e.target.value)}} name={name} id="description" cols={col} rows={row} placeholder={label} className='bg-blue-200 p-2' value={ value}></textarea>
     </>
   )
 }

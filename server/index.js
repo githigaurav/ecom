@@ -14,19 +14,16 @@ server.use(cookieParser())
 
 // routes
 const {seller, admin }= require('./routes/index')
+const TryCatch = require("./utils/TryCatch")
+
+
 
 server.use('/seller',seller)
 server.use('/admin', admin)
 
-
-
-
-
-
-
-
-
-
+server.all('*',(req, res)=>{    
+    res.status(404).json({message:` URL ${req.get('host')}${req.url} not found`})
+})
 
 
 const PORT=process.env.PORT

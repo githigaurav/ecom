@@ -3,9 +3,12 @@ import Profile from './profile';
 import {Dropdown, Input , ProductsList , Tab, Upload, Description, Loading } from './../helpers'
 import CookieParser from 'js-cookie'
 import {useNavigate} from 'react-router-dom'
-
+import ProfileTab from './ProfileTab';
 import { getDashboard } from '../hooks/dashboard';
+import axios from 'axios'
+import AddProduct from './AddProduct';
 function Dashboard() {
+    const[online, setOnline]=useState(navigator.onLine)
     const [data, error, loading, msg] = getDashboard("http://localhost:3001/seller/dashboard")
     const navigate = useNavigate()
     const [tab, setTab] = useState("dashboard")
@@ -20,9 +23,12 @@ function Dashboard() {
         warranty: '',
         cod: '',
         quantity: '',
-        discount: ''
+        file:null,
+        discount: '',
+        discription:''
     })
 
+    
     const handleTab = (tabStatus) => {
         setTab(tabStatus)
     }
@@ -34,6 +40,7 @@ function Dashboard() {
         CookieParser.remove("token")
         navigate("/")
     }
+  
 
     if (error) {
 
@@ -46,10 +53,15 @@ function Dashboard() {
         return <h3>Something went wrong</h3>
 
     }
+    if(!online){
+            return <p>No Internet Connection</p>
+    }
     if (loading) {
         return <Loading />
     }
-   console.log(data)
+
+
+   
     return (
         <>
             <div className="flex gap-2 h-screen p-2">
@@ -124,90 +136,8 @@ function Dashboard() {
 
                                         productTab === 'add_products' ?
 
-                                            <>
-                                                <div className='flex gap-3 m-3 justify-center'>
-                                                    <div className='flex flex-col gap-2'>
-                                                        <Input
-                                                            type={"text"}
-                                                            placeholder={"Product Name"}
-                                                            inputStyle={`w-[256px]`}
-                                                            name={addProduct.product_name}
-                                                            value={addProduct.product_name}
-                                                            onValueChange={(data) => { setAddProduct({ ...addProduct, product_name: data }) }}
-                                                        />
-                                                        <Input
-                                                            type={"text"}
-                                                            placeholder={"Brand Name"}
-                                                            inputStyle={`w-[256px]`}
-                                                            name={addProduct.brand_name}
-                                                            value={addProduct.brand_name}
-                                                            onValueChange={(data) => { setAddProduct({ ...addProduct, brand_name: data }) }}
-                                                        />
-                                                        <Dropdown
-                                                            dropDownStyle={''}
-                                                            categoryLable='Select Category'
-                                                            category={['Shoes', 'Clothes', 'TV']}
-                                                            onCategoryChange={(data) => { setAddProduct({ ...addProduct, category: data }) }}
-                                                        />
-                                                        <Dropdown
-                                                            dropDownStyle={''}
-                                                            categoryLable='Sub Category'
-                                                            category={['Male Shoes', 'Female Shoes', 'Kids Shoes']}
 
-                                                        />
-                                                        <Input
-                                                            type={"number"}
-                                                            placeholder={"Price"}
-                                                            inputStyle={`w-[256px]`}
-                                                            name={addProduct.price}
-                                                            value={addProduct.price}
-                                                            onValueChange={(data) => { setAddProduct({ ...addProduct, price: data }) }}
-                                                        />
-                                                        <Dropdown
-                                                            dropDownStyle={''}
-                                                            categoryLable='Return Applicable'
-                                                            category={['Yes', 'No']}
-                                                            onCategoryChange={(data) => { setAddProduct({ ...addProduct, return_applicable: data }) }}
-                                                        />
-                                                        <Dropdown
-                                                            dropDownStyle={''}
-                                                            categoryLable='Warranty'
-                                                            category={['1 Year', '2 Year']}
-                                                            onCategoryChange={(data) => { setAddProduct({ ...addProduct, warranty: data }) }}
-                                                        />
-                                                        <Dropdown
-                                                            dropDownStyle={''}
-                                                            categoryLable='Cash On Delivery'
-                                                            category={['Yes', 'No']}
-                                                            onCategoryChange={(data) => { setAddProduct({ ...addProduct, cod: data }) }}
-                                                        />
-
-                                                    </div>
-                                                    <div className='flex flex-col gap-2'>
-                                                        <Upload
-                                                            uploadLable='Upload file'
-                                                            uploadStyle='max-w-[256px] py-20 text-center'
-                                                        />
-                                                        <Input
-                                                            type={"number"}
-                                                            placeholder={"Quantity"}
-                                                            inputStyle={`w-[256px]`}
-                                                            name={addProduct.quantity}
-                                                            value={addProduct.quantity}
-                                                            onValueChange={(data) => { setAddProduct({ ...addProduct, quantity: data }) }}
-                                                        />
-                                                        <Dropdown
-                                                            dropDownStyle={''}
-                                                            categoryLable='Discount %'
-                                                            category={['10%', '20%', "50%"]}
-                                                            onCategoryChange={(data) => { setAddProduct({ ...addProduct, discount: data }) }}
-                                                        />
-                                                        <Description />
-                                                    </div>
-                                                </div>
-
-                                                <button className='bg-blue-400 max-w-[300px] px-10 py-3 rounded-sm hover:bg-blue-900 hover:text-white'>upload</button>
-                                            </>
+                                            (<AddProduct/>)
                                             :   productTab === 'listed_products' ?
                                             <ProductsList/> : null
 
@@ -215,7 +145,7 @@ function Dashboard() {
 
                                 </div>
                             </> 
-                            : null
+                            : tab === "profile" ? <ProfileTab data={data}/> : null
                     }
            
                 </div>
