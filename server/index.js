@@ -14,7 +14,7 @@ server.use(cookieParser())
 
 // routes
 const {seller, admin }= require('./routes/index')
-const TryCatch = require("./utils/TryCatch")
+
 
 
 
