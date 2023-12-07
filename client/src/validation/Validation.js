@@ -18,8 +18,6 @@ const regVal = new yup.ObjectSchema({
     address:yup.string().required("Address is required").min(3,"Minimum 3 Character is required"),
     gstNo:yup.string().required("GST No is required")
 
-  
-
 })
 
 

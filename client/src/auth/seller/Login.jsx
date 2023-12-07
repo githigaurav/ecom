@@ -18,7 +18,7 @@ function Login() {
         onSubmit: async(values) => { 
            try {
              const result = await axios.post("http://localhost:3001/seller/login", JSON.stringify(values), {headers:{"Content-Type":"application/json"}, withCredentials:true})
-             
+           
              if(result.data?.message){
                 setWarning("bg-green-600") 
                 setExists(result.data?.message)

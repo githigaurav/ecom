@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import { regVal } from './../../validation/Validation'
 import { Link , useNavigate } from 'react-router-dom'
 import axios from 'axios'
+// import Api from '../../api/Api'
 function Signup() {
   const navigate = useNavigate()
   const [exists, setExists]=useState(null)
@@ -23,6 +24,7 @@ function Signup() {
     onSubmit: async (values) => {       
       try {
         const result = await axios.post('http://localhost:3001/seller/register' ,JSON.stringify(values) , {headers:{"Content-Type":"application/json"} , withCredentials: true})
+        console.log(result)
         if(result.data?.message){
           setWarning('bg-green-600')
           setExists(result.data?.message)
@@ -32,6 +34,7 @@ function Signup() {
           },3000)
         }
       } catch (error) {
+        console.log(error)
         if(error.response.data?.message){
           setWarning("bg-red-400")
           setExists(error.response.data.message)
@@ -60,7 +63,7 @@ function Signup() {
           value={formik.values.name}
           name={"name"}
           onInputBlur={formik.handleBlur}
-          onValueChange={(value) => { formik.setFieldValue("name", value.toLowerCase()) }}
+          onValueChange={(value) => { formik.setFieldValue("name", value) }}
         />
         {formik.touched.name && formik.errors.name ? <p className='text-red-600'>{formik.errors.name}</p> : null}
         <Input
@@ -105,7 +108,7 @@ function Signup() {
           name={"companyName"}
           value={formik.values.companyName}
           onInputBlur={formik.handleBlur}
-          onValueChange={(value) => { formik.setFieldValue("companyName", value.toLowerCase()) }}
+          onValueChange={(value) => { formik.setFieldValue("companyName", value) }}
         />
         {formik.touched.companyName && formik.errors.companyName ? <p className='text-red-600'>{formik.errors.companyName}</p> : null}
 
@@ -114,7 +117,7 @@ function Signup() {
           onInputBlur={formik.handleBlur}
           value={formik.values.address}
           name={'address'}
-          onValueChange={(value) => { formik.setFieldValue("address", value.toLowerCase()) }}
+          onValueChange={(value) => { formik.setFieldValue("address", value) }}
         />
 
         {formik.touched.address && formik.errors.address ? <p className='text-red-600'>{formik.errors.address}</p> : null}
@@ -125,7 +128,7 @@ function Signup() {
           name={"gstNo"}
           value={formik.values.gstNo}
           onInputBlur={formik.handleBlur}
-          onValueChange={(value) => { formik.setFieldValue("gstNo", value.toLowerCase()) }}
+          onValueChange={(value) => { formik.setFieldValue("gstNo", value.toUpperCase()) }}
         />
         {formik.touched.gstNo && formik.errors.gstNo ? <p className='text-red-600'>{formik.errors.gstNo}</p> : null}
         <button className='bg-blue-600 text-white p-3 uppercase ' type='submit' onClick={formik.handleSubmit}>Register</button>

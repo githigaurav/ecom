@@ -5,12 +5,13 @@ const dbURL = process.env.DBCON
 
 const connectToDb = async () => {
     try {
-        await mongoose.connect(dbURL,{dbName:'ecommerce'})
+         await mongoose.connect(dbURL, { dbName: 'ecommerce' })
         console.log("db Connection established")
+
     } catch (error) {
-        throw new ApiError(500, 'Error connecting to MongoDB', [err.message]); 
-        
+       console.log(error)
+
     }
 }
 
-connectToDb()
+module.exports=connectToDb

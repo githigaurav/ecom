@@ -13,21 +13,6 @@ function Dashboard() {
     const navigate = useNavigate()
     const [tab, setTab] = useState("dashboard")
     const [productTab, setProductTab] = useState("add_products")
-    const [addProduct, setAddProduct] = useState({
-        product_name: '',
-        brand_name: '',
-        category: '',
-        sub_category: '',
-        price: '',
-        return_applicable: '',
-        warranty: '',
-        cod: '',
-        quantity: '',
-        file:null,
-        discount: '',
-        discription:''
-    })
-
     
     const handleTab = (tabStatus) => {
         setTab(tabStatus)

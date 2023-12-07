@@ -7,6 +7,10 @@ function SellerRoutes() {
       {
         path:'/dashboard',
         element:<Dashboard/>        
+      },
+      {
+        path:'/',
+        element:<Navigate to="dashboard"/>
       }
 
     ])

@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken")
 const multer = require("multer")
 const path = require('path')
 const cloudinary = require('cloudinary').v2; 
+
 const verifyToken = async (req, res, next) => {
   try {
     const token = req.cookies.token
@@ -15,7 +16,6 @@ const verifyToken = async (req, res, next) => {
 }
 
 const handleFile= function(req, res, next){
-  console.log(req.body)
   const userpath=path.join(__dirname , "./../upload")
 
   const storage = multer.diskStorage({
@@ -28,11 +28,8 @@ const handleFile= function(req, res, next){
   })
 
   const upload = multer({ storage: storage }).single('file');
-  upload(req, res , next, async function(err){
-      if(err) throw new Error("Failed to upload File.")
-      await uploadToCloud()
-      
-      next()
+
+  upload(req, res , next,  function(err , info){
      
   })
 
@@ -42,8 +39,8 @@ const handleFile= function(req, res, next){
           
 
 
-const uploadToCloud = async (req, res, next) => {
-
+const uploadToCloud = async (req, res) => {
+  console.log("I am in cloud")
   try {
     cloudinary.config({
       cloud_name: process.env.CLOUD_NAME,
@@ -53,6 +50,8 @@ const uploadToCloud = async (req, res, next) => {
     const filePath = path.join(__dirname, "./../upload")
     const result = await cloudinary.uploader.upload(`${filePath}/upload.jpg`, { folder: 'ECommerce' })
     console.log("File has been  uploaded successfully")
+    return result
+    
   } catch (error) {
     console.log(error)
   }
