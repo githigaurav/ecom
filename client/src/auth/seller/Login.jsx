@@ -5,10 +5,11 @@ import { loginVal } from './../../validation/Validation'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer , toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import Animation from '../../animation/Animation'
 function Login() {
     const navigate=useNavigate()
-    const [exists , setExists]=useState(null)
-    const [warning , setWarning]=useState("bg-red-400")
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -16,24 +17,23 @@ function Login() {
         },
         validationSchema: loginVal,
         onSubmit: async(values) => { 
-           try {
-             const result = await axios.post("http://localhost:3001/seller/login", JSON.stringify(values), {headers:{"Content-Type":"application/json"}, withCredentials:true})
-           
+            const id= toast.loading("Signing in please wait") 
+            try {
+                
+                const result = await axios.post("http://localhost:3001/seller/login", JSON.stringify(values), {headers:{"Content-Type":"application/json"}, withCredentials:true})
+                
              if(result.data?.message){
-                setWarning("bg-green-600") 
-                setExists(result.data?.message)
+                toast.update(id, {render:result.data?.message, type:'success', isLoading:false })
                 setTimeout(()=>{
-                    setExists(null)
-                    navigate("/dashboard")
+                    toast.dismiss(id)
+                    navigate("/seller/dashboard")
                 },2000)
              }
             } catch (error) {
                 if(error.response.data?.message){
-                    setWarning("bg-red-400")
-                    setExists(error.response.data?.message)
-                    setTimeout(()=>{
-                        setExists(null)
-                    },2000)
+                    toast.update(id, {render:error.response.data?.message, type:'error', isLoading:false})
+                    setTimeout(()=> toast.dismiss(id), 2000)
+
                 }
            }
          }
@@ -41,12 +41,14 @@ function Login() {
     
     return (
         <>
+            <Animation >
+            <ToastContainer
+             hideProgressBar={false}
+             position="top-center"
+             autoClose={5000}
+             closeOnClick
+        />
             <div className='flex h-screen justify-center items-center w-full'>
-                    {
-                exists ? <div className=' text-center absolute top-5  '>
-                    <h3 className={`${warning} p-4 text-white rounded-sm`}>{exists}</h3>
-                </div> : null
-            }
                 <div className='flex flex-col gap-3 w-full max-w-[600px]'>
                     <h3 className='m-5 uppercase font-bold text-4xl text-center text-blue-600'>Seller Login</h3>
                     <Input
@@ -71,9 +73,10 @@ function Login() {
                    
                     <button className='text-white bg-blue-600 p-3' onClick={formik.handleSubmit} type='submit'>Login</button>
                      <Link to="/signup" className='text-blue-600 font-thin text-center'>Forget Password</Link> 
-                    <p className='text-center'>Don't have an account ? <Link to="/signup" className='text-blue-600 font-semi-bold'>Sign Up</Link> </p>
+                    <p className='text-center'>Don't have an account ? <Link to="/seller/signup" className='text-blue-600 font-semi-bold'>Sign Up</Link> </p>
                 </div>
             </div>
+            </Animation>
         </>
     )
 }

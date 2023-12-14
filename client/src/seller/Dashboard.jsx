@@ -5,15 +5,15 @@ import CookieParser from 'js-cookie'
 import {useNavigate} from 'react-router-dom'
 import ProfileTab from './ProfileTab';
 import { getDashboard } from '../hooks/dashboard';
-import axios from 'axios'
 import AddProduct from './AddProduct';
+import Animation from '../animation/Animation';
 function Dashboard() {
     const[online, setOnline]=useState(navigator.onLine)
     const [data, error, loading, msg] = getDashboard("http://localhost:3001/seller/dashboard")
     const navigate = useNavigate()
     const [tab, setTab] = useState("dashboard")
     const [productTab, setProductTab] = useState("add_products")
-    
+
     const handleTab = (tabStatus) => {
         setTab(tabStatus)
     }
@@ -23,15 +23,15 @@ function Dashboard() {
     }
     const handleLogout = () => {
         CookieParser.remove("token")
-        navigate("/")
+        navigate("/seller/login")
     }
-  
+
 
     if (error) {
 
         if (msg === "jwt expired" || msg === "invalid signature" || msg === "jwt must be provided") {
             setTimeout(() => {
-                navigate("/")
+                navigate("/seller/login")
             }, 2000)
             return <h1>Session Expired</h1>
         }
@@ -46,9 +46,10 @@ function Dashboard() {
     }
 
 
-   
+
     return (
-        <>
+       <Animation>
+         <>
             <div className="flex gap-2 h-screen p-2">
                 <div className="bg-white w-[256px] py-5  rounded ">
                     <Profile
@@ -58,7 +59,7 @@ function Dashboard() {
 
                     <Tab
                         label={"Dashboard"}
-                        imgPath="./assets/dashboard.png"
+                        imgPath="./../assets/dashboard.png"
                         imgInfo="dashboard"
                         boxStyle={` ${tab === "dashboard" && `bg-blue-200`}`}
                         handleTab={() => { handleTab("dashboard") }}
@@ -66,7 +67,7 @@ function Dashboard() {
 
                     <Tab
                         label={"Orders"}
-                        imgPath="./assets/orders.png"
+                        imgPath="./../assets/orders.png"
                         imgInfo="orders"
                         boxStyle={` ${tab === "orders" && `bg-blue-200`}`}
                         handleTab={() => {
@@ -75,7 +76,7 @@ function Dashboard() {
                     />
                     <Tab
                         label={"Products"}
-                        imgPath="./assets/products.png"
+                        imgPath="./../assets/products.png"
                         imgInfo="orders"
                         boxStyle={` ${tab === "products" && `bg-blue-200`}`}
                         handleTab={() => {
@@ -84,7 +85,7 @@ function Dashboard() {
                     />
                     <Tab
                         label={"Profile"}
-                        imgPath="./assets/profile.png"
+                        imgPath="./../assets/profile.png"
                         imgInfo="orders"
                         boxStyle={` ${tab === "profile" && `bg-blue-200`}`}
                         handleTab={() => {
@@ -108,7 +109,9 @@ function Dashboard() {
                     {/* if tab is selected on products then render this */}
                     {
                         tab === 'products' ?
+
                             <>
+
                                 <div className='bg-white'>
                                     <button className={`px-5 py-5 ${productTab === `add_products` ? `text-blue-500` : ``}`} onClick={() => { handleProduct("add_products") }}>Add Products</button>
                                     <button className={`px-5 py-5 ${productTab === `listed_products` ? `text-blue-500` : ``}`} onClick={() => { handleProduct("listed_products") }}>Listed Products</button>
@@ -124,18 +127,28 @@ function Dashboard() {
 
                                             (<AddProduct/>)
                                             :   productTab === 'listed_products' ?
-                                            <ProductsList/> : null
+
+                                                <ProductsList/>
+
+
+                                             : null
 
                                     }
 
                                 </div>
-                            </> 
+
+                            </>
+
+
+
+
                             : tab === "profile" ? <ProfileTab data={data}/> : null
                     }
-           
+
                 </div>
             </div>
         </>
+       </Animation>
     );
 }
 

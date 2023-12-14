@@ -14,12 +14,14 @@ server.use(express.json())
 server.use(cookieParser())
 
 // routes
-const {seller, admin }= require('./routes/index')
+const {seller, admin , user}= require('./routes/index')
 const { ApiError } = require("./utils/ErrorHandling")
 
 
 server.use('/seller',seller)
+server.use('/seller',seller)
 server.use('/admin', admin)
+server.use('/user', user)
 server.get('/error',(req , res)=>{
    throw new ApiError(500, "New Custome Error" , ["welcome to global error"] , "test")
 })

@@ -1,10 +1,8 @@
 const express = require("express");
 const seller = express.Router();
-const {mongoose, Schema ,}=require('mongoose')
 // importing seller db file
 const sellerDB = require("./../schemas/seller");
 const Product = require("./../schemas/product")
-const jwt = require("jsonwebtoken")
 
 // importing global controllers
 const {
@@ -15,7 +13,8 @@ const {
     encPass,
     decPass,
     token,
-    findData
+    findData,
+    uploadToCloud,
 } = require("./../controllers/globalControllers");
 const TryCath = require('./../utils/TryCatch')
 // importing middleware
@@ -23,68 +22,6 @@ const { verifyToken, handleFile } = require("./../middleware/globalMiddleware");
 const TryCatch = require("./../utils/TryCatch");
 const { ApiResponse } = require('./../utils/ApiResponse')
 
-// Register route has been replaced with Async Hanlder Wrapper
-// seller.post("/register", async (req, res) => {
-//     try {
-//         const { password, ...data } = req.body
-//         const passwordResult = await encPass(password)
-//         const info = { ...data, password: passwordResult }
-//         const result = await addData(info, sellerDB);
-//         const { _id, ...rest } = result
-//         const token_info = await token({ _id: _id })
-//         res.cookie("token", token_info)
-//         res.json({ message: "Registration Successfully" })
-
-//     } catch (error) {
-//         console.log(error)
-//         if (error.code === 11000 && error.keyPattern.gstNo) {
-//             res.status(400).json({ message: "GST Number is already exists" });
-//         } else if (error.code === 11000 && error.keyPattern.email) {
-//             res.status(400).json({ message: "Email is already exists" });
-//         } else if (error.code === 11000 && error.keyPattern.email) {
-//             res.status(400).json({ message: "Email is already exists" });
-//         } else if (error.code === 11000 && error.keyPattern.phoneNumber) {
-//             res.status(400).json({ message: "Phne Number is already exists" });
-//         } else if (error.errors.name?.message) {
-//             res.status(400).json({ message: error.errors.name.message });
-//         } else if (error.errors.email?.message) {
-//             res.status(400).json({ message: error.errors.email.message });
-//         } else if (error.errors.password?.message) {
-//             res.status(400).json({ message: error.errors.password.message });
-//         } else if (error.errors.phoneNumber?.message) {
-//             res.status(400).json({ message: error.errors.phoneNumber.message });
-//         } else if (error.errors.companyName?.message) {
-//             res.status(400).json({ message: error.errors.companyName.message });
-//         } else if (error.errors.address?.message) {
-//             res.status(400).json({ message: error.errors.address.message });
-//         } else if (error.errors.gstNo?.message) {
-//             res.status(400).json({ message: error.errors.gstNo.message });
-//         }
-//     }
-// });
-
-// seller.post("/login", async (req, res) => {
-//     try {
-//         const { email, password } = req.body
-//         const result = await isDataExists(email, sellerDB)
-//         if (result.length !== 0) {
-//             const passMatch = await decPass(password, result[0].password)
-//             if (passMatch) {
-//                 const { _id, ...data } = result[0]
-//                 const loginToken = await token({ _id: _id })
-//                 res.cookie("token", loginToken)
-//                 res.status(200).json({ message: "Login Successfully" })
-//             } else {
-//                 res.status(400).json({ message: "Invalid Password" })
-//             }
-//         } else {
-//             res.status(400).json({ message: "Email doesn't exists" })
-//         }
-//     } catch (error) {
-//         console.log(error)
-//         res.status(400).json({ message: "Something went wrong" })
-//     }
-// })
 seller.post("/register", TryCatch(async (req, res) => {
     console.log("working routes")
     const { password, ...data } = req.body
@@ -95,33 +32,6 @@ seller.post("/register", TryCatch(async (req, res) => {
     const token_info = await token({ _id: _id })
     res.cookie("token", token_info)
     res.json({ message: "Registration Successfully" })
-
-
-    // now these big code has been handled by catch block in optomization way. 
-    //     if (error.code === 11000 && error.keyPattern.gstNo) {
-    //         res.status(400).json({ message: "GST Number is already exists" });
-    //     } else if (error.code === 11000 && error.keyPattern.email) {
-    //         res.status(400).json({ message: "Email is already exists" });
-    //     } else if (error.code === 11000 && error.keyPattern.email) {
-    //         res.status(400).json({ message: "Email is already exists" });
-    //     } else if (error.code === 11000 && error.keyPattern.phoneNumber) {
-    //         res.status(400).json({ message: "Phne Number is already exists" });
-    //     } else if (error.errors.name?.message) {
-    //         res.status(400).json({ message: error.errors.name.message });
-    //     } else if (error.errors.email?.message) {
-    //         res.status(400).json({ message: error.errors.email.message });
-    //     } else if (error.errors.password?.message) {
-    //         res.status(400).json({ message: error.errors.password.message });
-    //     } else if (error.errors.phoneNumber?.message) {
-    //         res.status(400).json({ message: error.errors.phoneNumber.message });
-    //     } else if (error.errors.companyName?.message) {
-    //         res.status(400).json({ message: error.errors.companyName.message });
-    //     } else if (error.errors.address?.message) {
-    //         res.status(400).json({ message: error.errors.address.message });
-    //     } else if (error.errors.gstNo?.message) {
-    //         res.status(400).json({ message: error.errors.gstNo.message });
-    //     }
-    // }
 }));
 
 
@@ -166,7 +76,7 @@ seller.delete("/delete", async (req, res) => {
 
 seller.get("/dashboard", verifyToken, async (req, res) => {
     try {
-        const _id = req.data;
+        const _id = req.data.id;
         const result = await findData(_id, sellerDB);
         if (result.length !== 0) {
             const { password, ...dbData } = result._doc;
@@ -177,19 +87,24 @@ seller.get("/dashboard", verifyToken, async (req, res) => {
     }
 });
 
-
-
-
-
-seller.post("/upload", async (req, res) => {
-    const saveProduct = new Product(req.body)
-    const result = await saveProduct.save()
-    const objId=JSON.stringify(result._id)  
-    const deco=  jwt.decode(req.cookies.token)
-   const sellerId=deco._id
-   
+seller.post("/upload", async (req, res) => {   
 
 })
 
+seller.post('/addproduct', verifyToken , handleFile , TryCatch(
+    async(req, res)=>{
+        console.log(req.file.filename)
+         const uploaded = await uploadToCloud(req)
+         console.log(uploaded)
+         if(uploaded){
+           const productData={...req.body, fileURL:uploaded.url}
+           const sellerId=req.data.id
+           const result = await addData(productData,Product)
+           await sellerDB.findByIdAndUpdate(sellerId,{$push:{listedProducts:result._id.toString()}})
+           ApiResponse.success([],"Product added successfully", 201 ).send(res)
+         }
+
+    }
+))
 
 module.exports = seller;

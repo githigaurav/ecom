@@ -38,7 +38,7 @@ const productSchema = new mongoose.Schema({
     fileURL:{
         type:String
     },
-    owner:[
+    seller:[
         {
             type:Schema.Types.ObjectId,
             ref:"Seller"
