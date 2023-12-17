@@ -1,3 +1,5 @@
+...under process 
+*** 
 ## Client Directory
 📦src
 
@@ -9,11 +11,43 @@
     📦api
     ┗ 📜Api.js
 
-    Seller Login && Signup Page
+    Role based  Login && Signup Page
     📦auth
     ┣ 📂seller
     ┃ ┣ 📜Login.jsx
     ┃ ┗ 📜Signup.jsx
+
+    Custome Component which can be used any time just import and use
+    📦helpers
+        ┣ 📜Description.jsx
+        ┣ 📜Dropdown.jsx
+        ┣ 📜index.js
+        ┣ 📜Input.jsx
+        ┣ 📜Loading.jsx
+        ┣ 📜Message.jsx
+        ┣ 📜NotFound.jsx
+        ┣ 📜ProductsList.jsx
+        ┣ 📜Tab.jsx
+        ┗ 📜Upload.jsx
+
+    Custome Hooks (not optomised yet)
+    📦hooks
+        ┗ 📜dashboard.js
+
+    Role Based Routes Config
+    📦routes
+        ┗ 📜RoutesConfig.jsx
+
+    Seller Essential component
+    📦seller
+        ┣ 📜AddProduct.jsx
+        ┣ 📜Dashboard.jsx
+        ┣ 📜Profile.jsx
+        ┗ 📜ProfileTab.jsx
+
+    Form or Input Validation Config
+    📦validation
+        ┗ 📜Validation.js
    
 ## Server Directory
 📦server
