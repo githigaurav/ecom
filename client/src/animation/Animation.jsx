@@ -9,7 +9,7 @@ const animate ={
 function Animation({children}) {
   return (
     <>
-        <motion.div variants={animate} initial="initial" animate="animate" exit="exit" >
+        <motion.div variants={animate} initial="initial" animate="animate" exit="exit" style={{width:'100%'}} >
                 {children}
         </motion.div>
     </>

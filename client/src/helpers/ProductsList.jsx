@@ -2,6 +2,7 @@ import React from 'react'
 import { GetProduct } from '../api/CustomeAPI'
 import Loading from './Loading'
 const urlPath="http://localhost:3001/seller/products"
+import Animation from '../animation/Animation';
 function ProductsList() {
     const[data, error, loading, msg]=GetProduct(urlPath)
 
@@ -17,6 +18,7 @@ function ProductsList() {
 
     return (
         <>
+        <Animation>
             <div className='flex flex-col w-full items-center gap-3 '>
             {
                 data?.data?.map((product , index)=>{
@@ -45,6 +47,7 @@ function ProductsList() {
                 })
             }
             </div>
+            </Animation>
         </>
       )
   }
