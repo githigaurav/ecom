@@ -3,7 +3,8 @@ const seller = express.Router();
 // importing seller db file
 const sellerDB = require("./../schemas/seller");
 const Product = require("./../schemas/product")
-
+const Order = require("../schemas/orders");
+const mongoose = require('mongoose')
 // importing global controllers
 const {
     addData,
@@ -20,7 +21,8 @@ const {
 // importing middleware
 const { verifyToken, handleFile } = require("./../middleware/globalMiddleware");
 const TryCatch = require("./../utils/TryCatch");
-const { ApiResponse } = require('./../utils/ApiResponse')
+const { ApiResponse } = require('./../utils/ApiResponse');
+
 
 seller.post("/register", TryCatch(async (req, res) => {
     const { password, ...data } = req.body
@@ -112,6 +114,14 @@ seller.get('/products', verifyToken , TryCatch(
         if(result.length){
             ApiResponse.success(result, "Product list received" , 200).send(res)
         }
+    }
+))
+
+seller.get('/order',verifyToken, TryCatch(
+    async(req, res)=>{
+        const sellerId = new mongoose.Types.ObjectId(req.data.id);
+        const result = await Order.find({seller:sellerId})       
+        ApiResponse.success([result] , 'Data fetch successfully' , 200).send(res)
     }
 ))
 

@@ -7,6 +7,7 @@ const Seller = require("../schemas/seller")
 const Order = require("../schemas/orders")
 const { ApiResponse } = require("../utils/ApiResponse")
 const { verifyToken } = require("../middleware/globalMiddleware")
+const mongoose = require('mongoose')
 
 user.post("/register", TryCatch(
     async(req, res)=>{
@@ -56,12 +57,19 @@ user.post("/buy",verifyToken, TryCatch(
     async(req, res)=>{
         const{productId ,userId}=req.body
         const buy= await addData(req.body, Order)
-        const productDetails= await findData(productId, Product)
-        const sellerId=productDetails.seller.toString()
-        const sellerFind= await findData(sellerId, Seller)        
-        const sellerUpdate= await Seller.findByIdAndUpdate(sellerId,{$push:{ordersList:buy._id.toString()}},{runValidator:false})
-        ApiResponse.success([sellerUpdate] , "Order Successfully" , 200).send(res)
+        const sellerId = await findData(productId, Product)
+        const updateOrder = await Order.findByIdAndUpdate(buy._id.toString(),{$push:{seller:sellerId.seller.toString()}}, {runValidator:false})
+        ApiResponse.success([] , "Order Successfully" , 200).send(res)
 
+    }
+))
+
+user.get('/order', verifyToken, TryCatch(
+    async(req, res)=>{
+        const userId = req.data.id
+        const id=new mongoose.Types.ObjectId(userId)
+        const result = await Order.find({userId:id})
+        ApiResponse.success([result], "Data fetch successfully" , 200).send(res)
     }
 ))
 

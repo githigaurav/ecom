@@ -60,7 +60,7 @@ const sellerSchema = new mongoose.Schema({
     ordersList:[
       {
         type:Schema.Types.ObjectId,
-        ref:'Order'
+        ref:'Orders'
       }
     ],
     accountStatus: {

@@ -1,5 +1,5 @@
 const {mongoose, Schema} =require("mongoose")
-const {allowedAToZWord,allowedNumberOnly,allowedBooleanOnly, allowedEmailOnly} =require("./utils.js")
+const {allowedEmailOnly} =require("./utils.js")
 const userSchema = mongoose.Schema({
     email:{
         type:String,
@@ -18,10 +18,6 @@ const userSchema = mongoose.Schema({
         required:[true, "Password is required"]
     },
     address:{
-        type:Array,
-        default:[]
-    },
-    orders:{
         type:Array,
         default:[]
     },

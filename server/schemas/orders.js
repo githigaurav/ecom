@@ -28,7 +28,11 @@ const ordersSchema = new mongoose.Schema({
     paymentStatus:{
         type:Boolean,
         defaut:false
-    } 
+    },
+    seller:[{
+        type:Schema.Types.ObjectId,
+        ref:'Seller'
+    }]
     
     },
     { timestamps: true },
