@@ -36,7 +36,7 @@ seller.post("/register", TryCatch(async (req, res) => {
 
 
 seller.post("/login", TryCatch(async (req, res) => {
-
+    console.log(req.body)
     const { email, password } = req.body
     const result = await isDataExists(email, sellerDB)
     if (result.length !== 0) {
@@ -90,20 +90,29 @@ seller.get("/dashboard", verifyToken, async (req, res) => {
 seller.post("/upload", async (req, res) => {   
 
 })
-
-seller.post('/addproduct', verifyToken , handleFile , TryCatch(
+// handleFile
+seller.post('/addproduct', verifyToken , handleFile ,  TryCatch(
     async(req, res)=>{
-        console.log(req.file.filename)
          const uploaded = await uploadToCloud(req)
-         console.log(uploaded)
-         if(uploaded){
+         if(uploaded){           
            const productData={...req.body, fileURL:uploaded.url}
            const sellerId=req.data.id
+           console.log(productData.returnApplicable)
            const result = await addData(productData,Product)
-           await sellerDB.findByIdAndUpdate(sellerId,{$push:{listedProducts:result._id.toString()}})
+           await sellerDB.findByIdAndUpdate(sellerId,{$push:{listedProducts:result._id.toString()}}, {runValidator:false})
+           const updateProduct = await Product.findByIdAndUpdate(result._id,{$push:{seller:sellerId}}) 
            ApiResponse.success([],"Product added successfully", 201 ).send(res)
          }
 
+    }
+))
+
+seller.get('/products', verifyToken , TryCatch(
+    async(req, res)=>{
+        const result = await Product.find()
+        if(result.length){
+            ApiResponse.success(result, "Product list received" , 200).send(res)
+        }
     }
 ))
 

@@ -19,7 +19,6 @@ const { ApiError } = require("./utils/ErrorHandling")
 
 
 server.use('/seller',seller)
-server.use('/seller',seller)
 server.use('/admin', admin)
 server.use('/user', user)
 server.get('/error',(req , res)=>{
@@ -33,10 +32,10 @@ server.all('*',(req, res)=>{
 server.use((err, req, res, next) => {
 
     if (err instanceof ApiError) {
-        console.log("new eror coming " + err)
+        // console.log("new eror coming " + err)
     }
     if (err instanceof Error) {
-        console.log("Error in mongoose" + err.message)
+        // console.log("Error in mongoose" + err.message)
     }
 
     next()

@@ -37,14 +37,9 @@ const findData = async (id , schema)=>{
 }
 
 const addData = async (info, schema) => {
-    try {
         const db = new schema(info)
         const result = await db.save()      
         return result
-    } catch (error) {
-        throw error 
-             
-}
 }
 
 const updateData = async(id, updateObj , schema)=>{
@@ -76,9 +71,9 @@ const uploadToCloud = async (req) => {
       });
       const filePath = path.join(__dirname, "./../upload")
       const result = await cloudinary.uploader.upload(`${filePath}/${req.file.filename}`, { folder: 'ECommerce' })
-      console.log("File has been  uploaded successfully")
+    //   console.log("File has been  uploaded successfully")
       fs.unlinkSync(`${filePath}/${req.file.filename}`)
-      console.log("File has been deleted")
+    //   console.log("File has been deleted")
       return result    
   }
 

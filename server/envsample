@@ -1,2 +1,8 @@
 PORT=3001
-DBCON="yourDB url will be here"
+DBCON="Your Database URL"
+secrectKey="JWT Secrect Key"
+CLOUD_NAME=Cloudinary Cloud Name
+CLOUD_API_KEY=Cloudinary API KEY
+CLOUD_API_SECRECT=Cloudinary Secrect Key
+
+
