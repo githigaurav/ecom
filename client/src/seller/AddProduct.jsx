@@ -20,9 +20,9 @@ function AddProduct() {
       category: "",
       subCategory: "",
       price: "",
-      returnAplicable: "",
+      returnApplicable: null,
       warranty: "",
-      cod: "",
+      cod: null,
       quantity: "",
       file: null,
       discount: "",
@@ -30,6 +30,7 @@ function AddProduct() {
     },
     validationSchema: addProductValidation,
     onSubmit: async (value) => {
+      const id = toast.loading("please wait")
       try {
         setLoading(true)
         setBtn("Please Wait")
@@ -41,7 +42,7 @@ function AddProduct() {
           myData.append(key, value[key])
 
         }
-        const id = toast.loading("please wait")
+       
         const result = await axios.post("http://localhost:3001/seller/addproduct", myData, { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true })
         setLoading(false)
         toast.update(id, { render: result.data?.message, type: "success", isLoading: false });
@@ -49,14 +50,21 @@ function AddProduct() {
           toast.dismiss(id)
         }, 2000)
         setBtn("Upload")
+        setLoading(false)
         formik.handleReset()
 
       } catch (error) {
-        console.log(error)
+        console.log(error.response?.data?.message)
+        toast.update(id, { render: error.response?.data?.message, type: 'error', isLoading: false });
+        setTimeout(() => {
+          toast.dismiss(id)
+        }, 2000)
+        setBtn("Upload")
+        setLoading(false)
       }
     }
   })
-
+console.log(formik.values)
   return (
     <>
       <ToastContainer
@@ -113,9 +121,9 @@ function AddProduct() {
             dropDownStyle={""}
             categoryLable="Return Applicable"
             category={["true", "false"]}
-            onCategoryChange={(data) => formik.setFieldValue("returnAplicable", data)}
+            onCategoryChange={(data) => formik.setFieldValue("returnApplicable", data)}
           />
-          {formik.errors.returnAplicable ? <span className="text-red-600">{formik.errors.returnAplicable}</span> : null}
+          {formik.errors.returnApplicable ? <span className="text-red-600">{formik.errors.returnApplicable}</span> : null}
           <Dropdown
             dropDownStyle={""}
             categoryLable="Warranty"

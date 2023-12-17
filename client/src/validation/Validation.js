@@ -26,7 +26,7 @@ const addProductValidation = new yup.ObjectSchema({
     category: yup.string().required("Category is required.").min(3, "Minim 3 Character is required").max(72, "Maximum 72 Character allowed only"),
     subCategory: yup.string().required("Sub Category is required.").min(3, "Minim 3 Character is required").max(72, "Maximum 72 Character allowed only"),
     price: yup.number("Valid Price required").required("Product price is required").max(999999 , "Maximum price reached"),
-    returnAplicable: yup.boolean().required("Return applicable is required"),
+    returnApplicable: yup.boolean().required("Return applicable is required"),
     warranty: yup.number().required("Warranty is required").max(5, "Maximum warranty limited reached"),
     cod: yup.boolean().required("Cash on delivery is required"),
     quantity: yup.number("Valid quantity is required").required("Quanityt is required."),

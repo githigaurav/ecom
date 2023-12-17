@@ -117,7 +117,7 @@ function Dashboard() {
                                     <button className={`px-5 py-5 ${productTab === `listed_products` ? `text-blue-500` : ``}`} onClick={() => { handleProduct("listed_products") }}>Listed Products</button>
                                     <button className={`px-5 py-5 ${productTab === `pending_products` ? `text-blue-500` : ``}`} onClick={() => { handleProduct("pending_products") }}>Pending Products</button>
                                 </div>
-                                <div className='bg-white  h-screen flex  flex-col items-center py-5'>
+                                <div className='bg-white  h-screen flex  flex-col items-center py-5 overflow-x-hidden overflow-y-scroll'>
 
                                     {/* if add products is selected then render this */}
                                     {

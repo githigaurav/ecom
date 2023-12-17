@@ -1,3 +1,20 @@
+## Client Directory
+📦src
+
+    Farmer Animation Directory
+    📦animation
+    ┗ 📜Animation.jsx
+
+    Custom Hooks for getting data to Dashboard (later name will be changed)
+    📦api
+    ┗ 📜Api.js
+
+    
+    📦auth
+    ┣ 📂seller
+    ┃ ┣ 📜Login.jsx
+    ┃ ┗ 📜Signup.jsx
+   
 # Status Code For Client and Server
 
 ## Success Responses:
