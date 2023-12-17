@@ -1,7 +1,7 @@
 ## Client Directory
 📦src
 
-    Farmer Animation Directory
+    Framer Animation Directory
     📦animation
     ┗ 📜Animation.jsx
 
@@ -9,11 +9,55 @@
     📦api
     ┗ 📜Api.js
 
-    
+    Seller Login && Signup Page
     📦auth
     ┣ 📂seller
     ┃ ┣ 📜Login.jsx
     ┃ ┗ 📜Signup.jsx
+   
+## Server Directory
+📦server
+
+    Mongoose Connection
+    📦connections
+        ┗ 📜dbConnection.js
+
+    Global Control for CRUD Operation
+    📦controllers
+        ┗ 📜globalControllers.js
+
+    Milddleware such as JWT Multer etc.
+    📦middleware
+        ┗ 📜globalMiddleware.js
+
+    Role based Routes 
+    📦routes
+        ┣ 📜admin.js
+        ┣ 📜index.js
+        ┣ 📜seller.js
+        ┗ 📜user.js
+
+    Schema For User , Seller , Admin and some validatio files under Utils
+    📦schemas
+        ┣ 📜orders.js
+        ┣ 📜product.js
+        ┣ 📜seller.js
+        ┗ 📜utils.js
+
+    Global Response && Error Handling
+    📦utils
+        ┣ 📜ApiResponse.js
+        ┣ 📜ErrorHandling.js
+        ┣ 📜GlobalUtils.js
+        ┗ 📜TryCatch.js
+    
+    Environment Variable Config file
+        ┗ 📜.env
+
+
+    Server Configuration
+        ┗ 📜index.js
+
    
 # Status Code For Client and Server
 
