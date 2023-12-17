@@ -35,7 +35,15 @@ const addProductValidation = new yup.ObjectSchema({
     file: yup.mixed().required('File is required'),
 })
 
+const userReg = new yup.ObjectSchema({
+    name:yup.string().required("Name is required").min(3, "Minimum 3 Character is required"),
+    email:yup.string().email("Valid Email is required").required("Email is required"),
+    password:yup.string().required("Password is required").min(4,"Minimum 4 character password is required").max(72,"Maximum 72 Character is allowed"),
+    confirmPassword:yup.string().required("Confirm Password is required").oneOf([yup.ref("password")], "Password does not matched"),
+
+
+})
 
 
 
-export {loginVal , regVal , addProductValidation}
+export {loginVal , regVal , addProductValidation , userReg}

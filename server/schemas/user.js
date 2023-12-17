@@ -1,6 +1,16 @@
 const {mongoose, Schema} =require("mongoose")
-const {allowedEmailOnly} =require("./utils.js")
+const {allowedEmailOnly , allowedAToZWord} =require("./utils.js")
 const userSchema = mongoose.Schema({
+    name:{
+        type:String,
+        required:[true, "Name is required"],
+        validate:{
+            validator:function(value){
+                return allowedAToZWord(value)
+            },
+            message:"A Valid name is required"
+        }
+    },
     email:{
         type:String,
         unique:[true, "Email is already exists"],
