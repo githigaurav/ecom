@@ -30,9 +30,6 @@ const sellerSchema = new mongoose.Schema({
       type: Number,
       validate:{
         validator:function(value){
-          if(value.toString().length > 10 || value.toString().length < 10 ){
-            return false
-          }
           return allowedNumberOnly(value)
         },
         message:"Valid number is required"

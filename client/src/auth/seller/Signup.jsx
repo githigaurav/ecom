@@ -6,6 +6,7 @@ import { Link , useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {ToastContainer , toast} from 'react-toastify'
 import Animation from '../../animation/Animation'
+import { auth } from '../utils/Auth'
 function Signup() {
   const navigate = useNavigate()
   const [exists, setExists]=useState(null)
@@ -25,12 +26,13 @@ function Signup() {
     onSubmit: async (values) => {       
       const id = toast.loading("Please wait....")
       try {
-        const result = await axios.post('http://localhost:3001/seller/register' ,JSON.stringify(values) , {headers:{"Content-Type":"application/json"} , withCredentials: true})
+        const result = await auth("post","seller/register", values)
+        // const result = await axios.post('http://localhost:3001/seller/register' ,JSON.stringify(values) , {headers:{"Content-Type":"application/json"} , withCredentials: true})
         if(result.data?.message){
           toast.update(id, {render:result.data?.message, type:'success' , isLoading:false})
           setTimeout(()=>{
               toast.dismiss(id)
-            navigate("/dashboard")
+            navigate("/seller/dashboard")
           },3000)
         }
       } catch (error) {

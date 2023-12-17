@@ -23,7 +23,7 @@ const TryCatch = require("./../utils/TryCatch");
 const { ApiResponse } = require('./../utils/ApiResponse')
 
 seller.post("/register", TryCatch(async (req, res) => {
-    console.log("working routes")
+    console.log(req.body)
     const { password, ...data } = req.body
     const passwordResult = await encPass(password)
     const info = { ...data, password: passwordResult }

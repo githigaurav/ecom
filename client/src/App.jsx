@@ -4,8 +4,7 @@ import Login from "./auth/seller/Login";
 import NotFound from "./helpers/NotFound";
 import {SellerRoutes} from "./routes/RoutesConfig";
 import {BrowserRouter as Router, Routes , Route , Outlet} from 'react-router-dom'
-import Parent from './nestedRoutes/Parent';
-import Child from './nestedRoutes/Child';
+
 
 function App() {
   return (
@@ -18,9 +17,7 @@ function App() {
                     <Route element={<SellerRoutes/>}>
                         <Route path="/seller/dashboard" element={<Dashboard/>}/>
                     </Route>
-                    <Route path="/" element={<Parent/>}>
-                        <Route path="post/new" element={<Child/>}/>
-                    </Route>
+                    
                     
                          
           </Routes>

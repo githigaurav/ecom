@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import { loginVal } from './../../validation/Validation'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import { auth } from '../utils/Auth'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer , toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,8 +20,8 @@ function Login() {
         onSubmit: async(values) => { 
             const id= toast.loading("Signing in please wait") 
             try {
-                
-                const result = await axios.post("http://localhost:3001/seller/login", JSON.stringify(values), {headers:{"Content-Type":"application/json"}, withCredentials:true})
+                const result = await auth("post", "seller/login", values)
+                // const result = await axios.post("http://localhost:3001/seller/login", JSON.stringify(values), {headers:{"Content-Type":"application/json"}, withCredentials:true})
                 
              if(result.data?.message){
                 toast.update(id, {render:result.data?.message, type:'success', isLoading:false })
