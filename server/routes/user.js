@@ -2,6 +2,9 @@ const user = require("express").Router()
 const TryCatch = require("../utils/TryCatch")
 const {addData, findData , encPass, decPass, isDataExists, token} = require("../controllers/globalControllers")
 const User = require('../schemas/user')
+const Product = require("../schemas/product")
+const Seller = require("../schemas/seller")
+const Order = require("../schemas/orders")
 const { ApiResponse } = require("../utils/ApiResponse")
 const { verifyToken } = require("../middleware/globalMiddleware")
 
@@ -46,6 +49,19 @@ user.get('/dashboard', verifyToken, TryCatch(
             const { password, ...dbData } = result._doc;
             ApiResponse.success([dbData], "Data Fetched Successfully", 200).send(res)
         }
+    }
+))
+
+user.post("/buy",verifyToken, TryCatch(
+    async(req, res)=>{
+        const{productId ,userId}=req.body
+        const buy= await addData(req.body, Order)
+        const productDetails= await findData(productId, Product)
+        const sellerId=productDetails.seller.toString()
+        const sellerFind= await findData(sellerId, Seller)        
+        const sellerUpdate= await Seller.findByIdAndUpdate(sellerId,{$push:{ordersList:buy._id.toString()}},{runValidator:false})
+        ApiResponse.success([sellerUpdate] , "Order Successfully" , 200).send(res)
+
     }
 ))
 

@@ -11,6 +11,7 @@ const sellerSchema = new mongoose.Schema({
       },
       required: [true, "Name is required"]
     },
+    
     email: {
       type: String,
       validate:{
@@ -55,6 +56,12 @@ const sellerSchema = new mongoose.Schema({
         type:Schema.Types.ObjectId,
         ref:'Product'
     }
+    ],
+    ordersList:[
+      {
+        type:Schema.Types.ObjectId,
+        ref:'Order'
+      }
     ],
     accountStatus: {
       type: String,

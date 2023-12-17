@@ -6,7 +6,7 @@ const ordersSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Product'
     }],
-    userID:{
+    userId:{
         type:Schema.Types.ObjectId,
         ref:"User"
     },
@@ -35,5 +35,5 @@ const ordersSchema = new mongoose.Schema({
     { collection: 'Orders' }
 )
 
-const Orders = mongoose.model("Orders", ordersSchema)
-module.exports=Orders
+const Order = mongoose.model("Order", ordersSchema)
+module.exports=Order
