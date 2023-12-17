@@ -16,14 +16,13 @@ const {
     findData,
     uploadToCloud,
 } = require("./../controllers/globalControllers");
-const TryCath = require('./../utils/TryCatch')
+
 // importing middleware
 const { verifyToken, handleFile } = require("./../middleware/globalMiddleware");
 const TryCatch = require("./../utils/TryCatch");
 const { ApiResponse } = require('./../utils/ApiResponse')
 
 seller.post("/register", TryCatch(async (req, res) => {
-    console.log(req.body)
     const { password, ...data } = req.body
     const passwordResult = await encPass(password)
     const info = { ...data, password: passwordResult }

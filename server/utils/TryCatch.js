@@ -30,7 +30,10 @@ const TryCatch = (fn) => async (req, res, next) => {
       ApiResponse.failure([], message[0], 400).send(res);
     }
 
-   
+    // if(error?.message){
+    //   ApiResponse.failure([], error.message, 400).send(res)
+    // }
+    console.log(error)
   }
 };
 

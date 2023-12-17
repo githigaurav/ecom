@@ -19,8 +19,8 @@ const { ApiError } = require("./utils/ErrorHandling")
 
 
 server.use('/seller',seller)
-server.use('/admin', admin)
 server.use('/user', user)
+server.use('/admin', admin)
 server.get('/error',(req , res)=>{
    throw new ApiError(500, "New Custome Error" , ["welcome to global error"] , "test")
 })
@@ -35,9 +35,10 @@ server.use((err, req, res, next) => {
         // console.log("new eror coming " + err)
     }
     if (err instanceof Error) {
-        // console.log("Error in mongoose" + err.message)
+        
+        console.log(err.message)
     }
-
+    
     next()
 });
 
