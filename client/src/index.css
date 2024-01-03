@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 body{
-    background-color: #DAEAFF;
-    overflow: hidden;
+    background-color: #eef5ff;
+    box-sizing: border-box;
 }

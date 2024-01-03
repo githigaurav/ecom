@@ -6,7 +6,8 @@ function Tab({
     boxStyle,
     btnStyle,
     handleTab,
-    label
+    label,
+    imgStyle
 }) {
     return (
         <>
@@ -17,7 +18,7 @@ function Tab({
                     <img
                         src={imgPath}
                         alt={imgInfo}
-                        className='w-[24px] h-[24px]'
+                        className={`w-[24px] h-[24px] ${imgStyle}`}
                     />
                 </div>
                 <div>
